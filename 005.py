@@ -18,8 +18,8 @@ def produitNombrePremiersEntre(n1, n2):
             p*=k
     return p
 
+borne = int(input("Nombre:"))
 k = 0
-borne = int(input("Borne:"))
 p = produitNombrePremiersEntre(1,borne)
 
 while not estDivisible(k, 1, borne) or k == 0:

@@ -16,14 +16,15 @@ def fibonacci(n):
     else:
         return 0;
 
+borne = int(input("Nombre:"))
 s = 0
 n = 1
 fn = 0
 
-while fn < 4000000:
+while fn < borne:
     fn = fibonacci(n)   
     if fn < 4000000 and fn % 2 == 0:
         s += fn
     n+=1
     
-print("La somme des termes pairs et inférieurs à 4 000 000 de la suite de Fibonacci est", s,".")
+print("La somme des termes pairs et inférieurs à", borne, "de la suite de Fibonacci est", s,".")

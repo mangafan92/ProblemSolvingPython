@@ -1,4 +1,4 @@
-n = 600851475143
+n = int(input("Nombre:"))
 p = n
 k = 2
 
