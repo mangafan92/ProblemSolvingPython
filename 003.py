@@ -1,16 +1,16 @@
-def estPremier(n):
-    for k in range(2, int(n**(1/2))):
-        if n % k == 0:
-            return False
-    return True
-    
 n = 600851475143
-k=2
+p = n
+k = 2
 
-while k < n**(1/2):
-    if n % k == 0:
-        n /= k
+while p > 1:    
+    if p % k == 0:
+        p //= k
     else:
-        k+=1
+        k += 1
 
-print(n, estPremier(n))
+print("Le plus grand diviseur premier de", n, "est", k)
+
+# Le plus petit diviseur positif et supérieur à 1 d'un nombre est un nombre premier.
+# Lorsque l'on divise p par k, k est le plus petit diviseur de p donc k est premier.
+# De plus, la valeur de k augmente au fur et à mesure de l'exécution du programme, la dernière valeur prise par k est donc la plus grande qu'il prend.
+# Elle est par conséquent le plus grand diviseur premier de n.
