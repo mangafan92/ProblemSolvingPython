@@ -1,4 +1,3 @@
-# Calcule le n-ième terme de la suite de Fibonacci
 def fibonacci(n):
     U1 = 1
     U2 = 2
@@ -17,8 +16,6 @@ def fibonacci(n):
     else:
         return 0;
 
-# ---
-
 s = 0
 n = 1
 fn = 0
@@ -27,7 +24,6 @@ while fn < 4000000:
     fn = fibonacci(n)   
     if fn < 4000000 and fn % 2 == 0:
         s += fn
-        print(n, fn)
     n+=1
     
-print(s)
+print("La somme des termes pairs et inférieurs à 4 000 000 de la suite de Fibonacci est", s,".")
