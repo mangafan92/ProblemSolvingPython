@@ -6,4 +6,4 @@ s = 0
 for k in range(0, len(n)):
     s += int(n[k])
     
-print("2 puissance 10000 vaut", n, "et la somme des chiffres qui le compose vaut", s, ".")
+print("2 puissance", nombre, "vaut", n, "et la somme des chiffres qui le compose vaut", s, ".")
