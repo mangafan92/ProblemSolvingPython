@@ -1,3 +1,6 @@
+# Ce fichier est une copie de 018.py puisque les problèmes 018 et 067 sont en fait un seul problème
+# Le seul changement effectué est celui du changement de l'emplacement du fichier
+
 def somme(a,b, pyramide, table):
     if table[a][b] == 0: 
         if len(pyramide)-1 == a:
@@ -10,8 +13,8 @@ def somme(a,b, pyramide, table):
             else:
                 table[a][b] = int(pyramide[a][b]) + somme2
     return table[a][b]
-    
-fichier = open("./divers/018_triangle.txt", "r")
+
+fichier = open("./divers/067_triangle", "r")    
     
 pyramideStr = fichier.read()
 pyramideStr = pyramideStr.split()
