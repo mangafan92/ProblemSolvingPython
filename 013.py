@@ -1,4 +1,4 @@
-fichier = open("./divers/013_numbers.txt", "r")
+fichier = open("./données/013_numbers.txt", "r")
 nombres = fichier.read()
 nombres = nombres.split()
 

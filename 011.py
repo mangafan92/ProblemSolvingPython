@@ -1,4 +1,4 @@
-fichier = open("./divers/011_grid.txt", "r")
+fichier = open("./données/011_grid.txt", "r")
 
 nombres = fichier.read()
 nombres = nombres.split()
@@ -8,7 +8,7 @@ grid = []
 for k in range(0,20):
     grid.append([0]*20)
 
-# On remplis le tableau avec les nombres de la chaîne
+# On remplis le tableau avec les nombres de la liste
 for k in range(0, 20):
     for j in range(0, 20):
         grid[k][j] = int(nombres[k*20+j])
