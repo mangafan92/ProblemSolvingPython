@@ -23,7 +23,7 @@ fn = 0
 
 while fn < borne:
     fn = fibonacci(n)   
-    if fn < 4000000 and fn % 2 == 0:
+    if fn < borne and fn % 2 == 0:
         s += fn
     n+=1
     
