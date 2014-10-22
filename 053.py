@@ -7,9 +7,9 @@ def genererListeFactorielles(n):
         liste.append(liste[len(liste)-1]*n)
     return liste
 
-listeFactorielles = genererListeFactorielles(100)
-k = 0
 borne = 100
+listeFactorielles = genererListeFactorielles(borne)
+k = 0
   
 for n in range(1, borne+1):
     for r in range(1, n+1):
