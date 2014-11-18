@@ -1,6 +1,6 @@
 from math import log
 
-fichier = open("./données/099_base_exp.txt", "r")
+fichier = open("./data/099_base_exp.txt", "r")
 
 liste = fichier.read()
 liste = liste.splitlines()

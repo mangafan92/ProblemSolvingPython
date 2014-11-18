@@ -1,4 +1,4 @@
-fichier = open("./données/011_grid.txt", "r")
+fichier = open("./data/011_grid.txt", "r")
 
 nombres = fichier.read()
 nombres = nombres.split()

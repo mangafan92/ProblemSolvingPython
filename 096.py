@@ -64,7 +64,7 @@ def isCorrect(sudoku):
     return True
                     
     
-fichier = open("./données/096_sudoku.txt", "r")
+fichier = open("./data/096_sudoku.txt", "r")
 fichier = fichier.read()
 fichier = fichier.split()
 

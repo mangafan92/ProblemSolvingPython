@@ -13,7 +13,7 @@ def sommeMin(x, y, matrix, listeSommes):
                 listeSommes[x][y] = sommeMin(x, y+1, matrix, listeSommes) + matrix[x][y]
     return listeSommes[x][y]
 
-fichier = open("./données/081_matrix.txt", "r")
+fichier = open("./data/081_matrix.txt", "r")
 fichier = fichier.read()
 fichier = fichier.split()
 

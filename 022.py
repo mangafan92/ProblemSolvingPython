@@ -5,7 +5,7 @@ def scoreMot(mot):
         score += lettres.index(mot[k])+1
     return score
     
-with open("./données/022_names.txt") as fichier:
+with open("./data/022_names.txt") as fichier:
     fichier = fichier.read()
     fichier = fichier.split(",")
     for k in range(0, len(fichier)):

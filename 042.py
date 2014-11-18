@@ -14,7 +14,7 @@ def scoreMot(mot):
         score += lettres.index(mot[k])+1
     return score
     
-with open("./données/042_words.txt") as fichier:
+with open("./data/042_words.txt") as fichier:
     fichier = fichier.read()
     fichier = fichier.split(",")
     for k in range(0, len(fichier)):

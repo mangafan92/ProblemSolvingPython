@@ -11,7 +11,7 @@ def somme(a,b, pyramide, table):
                 table[a][b] = int(pyramide[a][b]) + somme2
     return table[a][b]
     
-fichier = open("./données/018_triangle.txt", "r")
+fichier = open("./data/018_triangle.txt", "r")
     
 pyramideStr = fichier.read()
 pyramideStr = pyramideStr.split()

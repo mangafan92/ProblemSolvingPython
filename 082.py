@@ -17,7 +17,7 @@ def sommeColonne(colonne, debut, fin, table):
             s += table[k][colonne]
     return s
 
-fichier = open("./données/081_matrix.txt", "r")
+fichier = open("./data/081_matrix.txt", "r")
 fichier = fichier.read()
 fichier = fichier.split()
 
