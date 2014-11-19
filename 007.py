@@ -1,16 +1,7 @@
-def estPremier(n):
-    for k in range(2, int(n**(1/2))+1):
-        if n % k == 0:
-            return False
-    return True
+from modules.primes import *
 
-borne = int(input("Nombre:"))    
-n = 1
-k = 0
+primes = Primes()
 
-while k < borne:
-    n+=1    
-    if estPremier(n):
-        k += 1
+n = int(input("Nombre:"))
 
-print("Le", k, "-ième nombre premier est", n)
+print("Le", n, "-ième nombre premier est", primes.get(n-1), ".")

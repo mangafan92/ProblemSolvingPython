@@ -1,14 +1,13 @@
-def estPremier(n):
-    for k in range(2, int(n**(1/2))+1):
-        if n % k == 0:
-            return False
-    return True
-    
+from modules.primes import *
+
+primes = Primes()
+
 borne = int(input("Nombre:"))
 s = 0
+k = 0
 
-for k in range(2, borne+1):
-    if estPremier(k):
-        s += k
-    
+while primes.get(k) < borne:
+    s += primes.get(k)
+    k += 1
+
 print("La somme des nombres premiers inférieurs à", borne, "est", s, ".")
