@@ -8,10 +8,6 @@ class Primes:
         self.read()
 
     def get(self, n):
-        """
-        :param n:
-        :return: n-1 -ième nombre premier.
-        """
         while len(self.primes) < n+1:
             self.addNextPrime()
         return self.primes[n]
