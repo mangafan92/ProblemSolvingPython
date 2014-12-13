@@ -26,7 +26,7 @@ class Primes:
         while not self.isNextPrime(n):
             n += 1
         self.primes.append(n)
-        if len(self.primes) % 1000 == 0:
+        if len(self.primes) % 5000 == 0:
             self.write()
 
     def isPrime(self, n):
