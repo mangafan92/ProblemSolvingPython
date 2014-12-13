@@ -1,5 +1,3 @@
-import math
-
 def isPandigital(number):
     number = str(number)
     figures = list(range(1,10))
