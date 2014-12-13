@@ -1,10 +1,10 @@
-import os.path
 import os
 
 class Primes:
     def __init__(self):
         self.primes = [2]
-        self.file = "./data/primes.txt"
+        self.dir = os.path.dirname(os.path.realpath(__file__))
+        self.file = self.dir + "/data/primes.txt"
         self.read()
 
     def get(self, n):
@@ -72,12 +72,14 @@ class Primes:
                 self.primes = [2]
 
         except (ValueError, FileNotFoundError):
+            print("Fichier primes.txt non trouvé.")
             self.primes = [2]
             self.write()
 
     def write(self):
-        if not os.path.isdir("./data") and not os.path.isfile("./data"):
-            os.mkdir("./data")
+        datadir = self.dir + "/data"
+        if not os.path.isdir(datadir) and not os.path.isfile(datadir):
+            os.mkdir(datadir)
         with open(self.file, "w") as file:
             output = ""
             for n in self.primes:
