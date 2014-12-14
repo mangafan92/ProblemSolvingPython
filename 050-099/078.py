@@ -1,9 +1,12 @@
+# TODO
+
 def startrecur(coins):
     partition = []
     piles = []
     recur(coins, piles)
     while not isover(piles, coins):
-        recur(coins, piles)
+        for k in range(coins**2):
+            recur(coins, piles)
         cleanpiles(piles)
     return piles
 
@@ -41,6 +44,6 @@ def sumpile(pile):
         sum += number
     return sum
 
-for k in range(4, 21):
+for k in range(4, 41):
     piles = startrecur(k)
     print(k, len(piles), piles)
