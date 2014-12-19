@@ -34,6 +34,12 @@ class Primes:
             self.addPrimeToNumber(n)
         return n in self.primes
 
+    def arePrimes(self, table):
+        for n in table:
+            if not self.isPrime(n):
+                return False
+        return True
+
     def isNextPrime(self, n):
         for number in self.primes:
             if n % number == 0:
