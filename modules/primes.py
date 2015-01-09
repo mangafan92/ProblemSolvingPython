@@ -11,7 +11,10 @@ class Primes(list):
     def get(self, n):
         while len(self) < n + 1:
             self.addNextPrime()
-        return self[n]
+        return list.__getitem__(n)
+
+    def __getitem__(self, item):
+        return self.get(item)
 
     def addPrimesToId(self, n):
         while len(self) < n:
