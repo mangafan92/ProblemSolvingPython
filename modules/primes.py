@@ -1,20 +1,20 @@
 import os
 
-class Primes:
+
+class Primes(list):
     def __init__(self):
-        self.primes = [2]
+        list.__init__(self, [2])
         self.dir = os.path.dirname(os.path.realpath(__file__))
         self.file = self.dir + "/data/primes.txt"
         self.read()
 
     def get(self, n):
-        while len(self.primes) < n+1:
+        while len(self) < n + 1:
             self.addNextPrime()
-        return self.primes[n]
-
+        return self[n]
 
     def addPrimesToId(self, n):
-        while len(self.primes) < n:
+        while len(self) < n:
             self.addNextPrime()
 
     def addPrimeToNumber(self, n):
@@ -22,17 +22,17 @@ class Primes:
             self.addNextPrime()
 
     def addNextPrime(self):
-        n = self.lastPrime()+1
+        n = self.lastPrime() + 1
         while not self.isNextPrime(n):
             n += 1
-        self.primes.append(n)
-        if len(self.primes) % 5000 == 0:
+        self.append(n)
+        if len(self) % 5000 == 0:
             self.write()
 
     def isPrime(self, n):
         if n > self.lastPrime():
             self.addPrimeToNumber(n)
-        return n in self.primes
+        return n in self
 
     def arePrimes(self, table):
         for n in table:
@@ -41,15 +41,15 @@ class Primes:
         return True
 
     def isNextPrime(self, n):
-        for number in self.primes:
+        for number in self:
             if n % number == 0:
                 return False
-            elif number > n**(1/2)+1:
+            elif number > n ** (1 / 2) + 1:
                 break
         return True
 
     def lastPrime(self):
-        return self.primes[len(self.primes)-1]
+        return self[len(self) - 1]
 
     def firstAbove(self, n):
         i = 0
@@ -60,7 +60,7 @@ class Primes:
     def range(self, n, m):
         output = []
         for k in range(n, m):
-            output.append(self.primes[k])
+            output.append(self[k])
         return output
 
     def read(self):
@@ -68,18 +68,18 @@ class Primes:
             if not os.path.isfile(self.file):
                 raise FileNotFoundError
             file = open(self.file)
-            self.primes = file.read()
-            self.primes = self.primes.splitlines()
+            content = file.read()
+            list.__init__(self, content.splitlines())
 
-            for k in range(len(self.primes)):
-                self.primes[k] = int(self.primes[k])
+            for k in range(len(self)):
+                self[k] = int(self[k])
 
-            if len(self.primes) == 0:
-                self.primes = [2]
+            if len(self) == 0:
+                list.__init__(self, [2])
 
         except (ValueError, FileNotFoundError):
             print("Fichier primes.txt non trouvé.")
-            self.primes = [2]
+            list.__init__(self, [2])
             self.write()
 
     def write(self):
@@ -88,6 +88,6 @@ class Primes:
             os.mkdir(datadir)
         with open(self.file, "w") as file:
             output = ""
-            for n in self.primes:
+            for n in self:
                 output += str(n) + "\n"
             file.write(output)
