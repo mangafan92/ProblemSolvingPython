@@ -1,16 +1,23 @@
-from modules.anagram import *
-from modules.primes import *
+from modules.primes import Primes
+
+def isCircular(prime, primes):
+    prime = str(prime)
+
+    for k in range(len(prime)):
+        prime = prime[1:len(prime)] + prime[0]
+        if not int(prime) in primes:
+            return False
+    return True
 
 primes = Primes()
-k = 0
+
+primesBelowLimit = primes.getPrimesBelow(10**6)
+
 circular = 0
 
-while primes.get(k) < 10**2:
-    element = primes.get(k)
-    permutations = anagram(str(element), len(str(element)))
-    for i in range(len(permutations)):
-        permutations[i] = int(permutations[i])
-    if primes.arePrimes(permutations):
+for prime in primesBelowLimit:
+    if isCircular(prime, primesBelowLimit):
         circular += 1
-        print(element, circular)
-    k += 1
+        # print(prime)
+
+print(circular)
