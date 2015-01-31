@@ -119,6 +119,3 @@ class Primes(list):
             for n in self:
                 output += str(n) + "\n"
             file.write(output)
-
-if __name__ == '__main__':
-    print(Primes()[0:10])
