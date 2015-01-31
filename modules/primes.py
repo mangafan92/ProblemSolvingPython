@@ -9,12 +9,13 @@ class Primes(list):
         self.read()
 
     def get(self, n):
-        while len(self) < n + 1:
-            self.addNextPrime()
+        self.addPrimesToId(n+1)
         return list.__getitem__(self, n)
 
     def __getitem__(self, item):
-        return self.get(item)
+        if type(item) == int:
+            self.addPrimesToId(item + 1)
+        return list.__getitem__(self, item)
 
     def addPrimesToId(self, n):
         while len(self) < n:
@@ -35,6 +36,7 @@ class Primes(list):
     def isPrime(self, n):
         if n > self.lastPrime():
             self.addPrimeToNumber(n)
+
         return n in self
 
     def arePrimes(self, table):
@@ -66,6 +68,29 @@ class Primes(list):
             output.append(self[k])
         return output
 
+    def getPrimesBelow(self, n):
+        primes = list()
+        for prime in self:
+            if prime > n:
+                break
+            primes.append(prime)
+        return primes
+
+    def decomposeProduct(self, n):
+        decomposition = dict()
+        k = 0
+        while n > 1:
+            if n % self[k] == 0:
+                n //= self[k]
+                try:
+                    decomposition[self[k]] += 1
+                except:
+                    decomposition[self[k]] = 1
+            else:
+                k += 1
+
+        return decomposition
+
     def read(self):
         try:
             if not os.path.isfile(self.file):
@@ -94,3 +119,6 @@ class Primes(list):
             for n in self:
                 output += str(n) + "\n"
             file.write(output)
+
+if __name__ == '__main__':
+    print(Primes()[0:10])
