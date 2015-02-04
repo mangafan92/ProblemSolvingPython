@@ -13,9 +13,11 @@ class Primes(list):
         return list.__getitem__(self, n)
 
     def __getitem__(self, item):
-        if type(item) == int:
-            self.addPrimesToId(item + 1)
-        return list.__getitem__(self, item)
+        while True:
+            try:
+                return list.__getitem__(self, item)
+            except:
+                self.addNextPrime()
 
     def addPrimesToId(self, n):
         while len(self) < n:
@@ -34,10 +36,27 @@ class Primes(list):
             self.write()
 
     def isPrime(self, n):
-        if n > self.lastPrime():
-            self.addPrimeToNumber(n)
+        self.addPrimeToNumber(n)
 
-        return n in self
+        def isPrimeRecur(a, b):
+            m = (a+b)//2
+
+            if self[m] == n:
+                return True
+            elif a - b == 0:
+                return False
+            elif self[m] > n:
+                return isPrimeRecur(a, m)
+            else:
+                return isPrimeRecur(m+1, b)
+
+        return isPrimeRecur(0, len(self))
+
+    def __contains__(self, item):
+        if type(item) == int:
+            return self.isPrime(item)
+        else:
+            return list.__contains__(self, item)
 
     def arePrimes(self, table):
         for n in table:
