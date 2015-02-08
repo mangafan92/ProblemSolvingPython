@@ -24,11 +24,11 @@ class Primes(list):
             self.addNextPrime()
 
     def addPrimeToNumber(self, n):
-        while self.lastPrime() < n:
+        while self[-1] < n:
             self.addNextPrime()
 
     def addNextPrime(self):
-        n = self.lastPrime() + 1
+        n = self[-1] + 1
         while not self.isNextPrime(n):
             n += 1
         self.append(n)
@@ -71,9 +71,6 @@ class Primes(list):
             elif number > n ** (1 / 2) + 1:
                 break
         return True
-
-    def lastPrime(self):
-        return self[len(self) - 1]
 
     def firstAbove(self, n):
         i = 0
