@@ -1,15 +1,19 @@
-number = 10
+def decompose(number):
+    decompositionsDict = [dict() for k in range(number+1)]
 
-decompose = lambda n: [[k, n-k] for k in range(1, n//2+1)]
+    def decomposeRecur(number, limit):
+        try:
+            return decompositionsDict[number][limit]
+        except:
+            decompositions = 0
+            for k in range(1, limit+1):
+                if number - k == 0:
+                    decompositions += 1
+                elif number - k >= 0:
+                    decompositions += decomposeRecur(number - k, k)
+            decompositionsDict[number][limit] = decompositions
+            return decompositions
 
-sums = decompose(number)
+    return decomposeRecur(number, number-1)
 
-for k in range(number):
-    for sum in sums:
-        for decomposition in decompose(sum[-1]):
-            tmpSum = sorted(sum[:len(sum) - 1] + decomposition)
-            if not tmpSum in sums:
-                sums.append(tmpSum)
-
-print(sums)
-print(len(sums))
+print(decompose(100))
