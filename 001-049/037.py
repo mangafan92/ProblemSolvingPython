@@ -1,22 +1,22 @@
-import math
-
 from modules.primes import Primes
+import math
 
 primes = Primes()
 
-def isTruncable(n):
-    for k in range(1, math.ceil(math.log10(n))):
-        if not primes.isPrime(n % 10**k) or not primes.isPrime(n // 10**k):
+def isTruncable(prime):
+    size = math.ceil(math.log10(prime))
+    for k in range(1, size):
+        if not (primes.isPrime(prime//(10**k)) and primes.isPrime(prime%(10**k))):
             return False
     return True
 
-truncables = []
+truncables = list()
 
-for prime in primes:
-    if prime >= 10 and isTruncable(prime) :
-        truncables.append(prime)
-        print(truncables)
-        if len(truncables) >= 11:
-            break
+k = 5
+
+while len(truncables) < 11:
+    if isTruncable(primes[k]):
+        truncables.append(primes[k])
+    k += 1
 
 print(sum(truncables))
