@@ -1,9 +1,8 @@
-nombre = int(input("Nombre:"))
+def solveProblem(power=1000):
+    number = 2**power
+    number = list(str(number))
+    number = list(map(int, number))
+    return sum(number)
 
-n = str(2**nombre)
-s = 0
-
-for k in range(0, len(n)):
-    s += int(n[k])
-    
-print("2 puissance", nombre, "vaut", n, "et la somme des chiffres qui le compose vaut", s, ".")
+if __name__ == '__main__':
+    print(solveProblem())
