@@ -1,8 +1,11 @@
-borne = int(input("Nombre:"))
-s = 0
+def solveProblem(limit=1000):
+    result = 0
 
-for k in range (1,borne):
-    if k % 3 == 0 or k % 5 == 0:
-        s+=k
-        
-print("La sommme des multiples de 3 ou 5 inférieurs à", borne, "est", s, ".")
+    for k in range (1,limit):
+        if k % 3 == 0 or k % 5 == 0:
+            result += k
+
+    return result
+
+if __name__ == '__main__':
+    print(solveProblem())
