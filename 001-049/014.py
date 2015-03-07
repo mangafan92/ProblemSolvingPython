@@ -1,21 +1,26 @@
-def nombreTermesSequenceCollatz(n):
-    k = 1
-    while n != 1:
-        if n%2 == 0:
-            n //= 2
+def collatz(n, collatzResults):
+    try:
+        return collatzResults[n]
+    except:
+        if n == 1:
+            output = 1
+        elif n%2 == 0:
+            output = 1 + collatz(n//2, collatzResults)
         else:
-            n = 3*n+1
-        k += 1
-    return k
+            output = 1 + collatz(3*n+1, collatzResults)
+        collatzResults[n] = output
+        return output
 
-borne = int(input("Nombre:"))
-nombreDepart = 1
-nombreTermes = 1
-        
-for k in range(1, borne+11000):
-    temp = nombreTermesSequenceCollatz(k)
-    if temp > nombreTermes:
-        nombreDepart = k
-        nombreTermes = temp
-        
-print("Le nombre de départ inférieur à", borne,"qui déclenche la séquence la plus longue est", nombreDepart, "et la séquence possède", nombreTermes, "termes.")
+def solveProblem(limit=10**6):
+    collatzResults = dict()
+    longest = 0
+    start = 0
+    for k in range(1, limit):
+        collatzLength = collatz(k, collatzResults)
+        if collatzLength > longest:
+            longest = collatzLength
+            start = k
+    return start
+
+if __name__ == '__main__':
+    print(solveProblem())
