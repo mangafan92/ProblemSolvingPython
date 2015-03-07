@@ -9,8 +9,12 @@ def latticePaths(height, width):
                 return 1
             else:
                 results[x][y] = latticePathsRecur(x+1, y) + latticePathsRecur(x, y+1)
-                return  results[x][y]
+                return results[x][y]
 
     return latticePathsRecur(0, 0)
 
-print(latticePaths(20, 20))
+def solveProblem(size=20):
+    return latticePaths(size, size)
+
+if __name__ == '__main__':
+    print(solveProblem())
