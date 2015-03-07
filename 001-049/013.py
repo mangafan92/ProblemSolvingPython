@@ -1,10 +1,15 @@
-fichier = open("./data/013_numbers.txt", "r")
-nombres = fichier.read()
-nombres = nombres.split()
+with open("./data/013_numbers.txt", "r") as file:
+    content = file.read()
 
-s = 0
+def contentToList(content):
+    content = content.splitlines()
+    content = list(map(int, content))
+    return content
 
-for k in range(0, len(nombres)):
-    s += int(nombres[k])
-    
-print("Les 10 premiers chiffres de la somme de ces nombres sont", str(s)[0:10], ".")
+def solveProblem(content=content):
+    result = sum(contentToList(content))
+    result = int(str(result)[:10])
+    return result
+
+if __name__ == '__main__':
+    print(solveProblem())
