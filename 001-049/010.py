@@ -1,13 +1,14 @@
-from modules.primes import *
+import modules.primes
 
-primes = Primes()
+primes = modules.primes.Primes()
 
-borne = int(input("Nombre:"))
-s = 0
-k = 0
+def solveProblem(limit=2*10**6):
+    result = 0
+    k = 0
+    while primes[k] < limit:
+        result += primes[k]
+        k += 1
+    return result
 
-while primes.get(k) < borne:
-    s += primes.get(k)
-    k += 1
-
-print("La somme des nombres premiers inférieurs à", borne, "est", s, ".")
+if __name__ == '__main__':
+    print(solveProblem())
