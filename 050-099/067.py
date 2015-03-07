@@ -1,36 +1,36 @@
-# Ce fichier est une copie de 018.py puisque les problèmes 018 et 067 sont le même problème
-# Le seul changement effectué est celui du changement de l'emplacement du fichier
+with open("./data/067_triangle.txt", "r") as file:
+    content = file.read()
 
-def somme(a,b, pyramide, table):
-    if table[a][b] == 0: 
-        if len(pyramide)-1 == a:
-            return int(pyramide[a][b])
+def maximumPathSum(triangle):
+    maximumPathSums = list()
+    for line in triangle:
+        maximumPathSums.append(list(line))
+
+    for i in range(len(maximumPathSums)):
+        for j in range(len(maximumPathSums[i])):
+            maximumPathSums[i][j] = 0
+
+    def maximumPathSumRecur(line, column):
+        if maximumPathSums[line][column] != 0:
+            return maximumPathSums[line][column]
         else:
-            somme1 = somme(a+1,b, pyramide, table)
-            somme2 = somme(a+1,b+1, pyramide, table)
-            if somme1 > somme2:
-                table[a][b] = int(pyramide[a][b]) + somme1                
+            if line == len(triangle)-1:
+                maximumPathSums[line][column] = triangle[line][column]
             else:
-                table[a][b] = int(pyramide[a][b]) + somme2
-    return table[a][b]
+                maximumPathSums[line][column] = triangle[line][column] + max(maximumPathSumRecur(line+1, column), maximumPathSumRecur(line+1, column+1))
+            return maximumPathSums[line][column]
 
-fichier = open("./data/067_triangle.txt", "r")
-    
-pyramideStr = fichier.read()
-pyramideStr = pyramideStr.split()
+    return maximumPathSumRecur(0, 0)
 
-pyramide = []
-table = []
-pos = 0
-k= 0
+def contentToTriangle(content):
+    content = content.splitlines()
+    content = list(map(lambda n: n.split(" "), content))
+    lineToInt = lambda line: list(map(int, line))
+    content = list(map(lineToInt, content))
+    return content
 
-while pos <= len(pyramideStr):  
-    pyramide.append(pyramideStr[pos-k:pos])
-    table.append([0]*(k+1))
-    k += 1    
-    pos += k
-        
-pyramide.pop(0)
+def solveProblem(content=content):
+    triangle = contentToTriangle(content)
+    return maximumPathSum(triangle)
 
-print(somme(0, 0, pyramide, table))
-
+print(solveProblem())
