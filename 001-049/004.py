@@ -1,20 +1,16 @@
-def estPalindrome(n):
-    n = str(int(n))
-    p = len(n) - 1
-        
-    for k in range(0, p):        
-        if n[k] != n[p-k]:
-            return False
-            
-    return True
+import itertools
 
-reponse = 0
+def isPalindromic(number):
+    return str(number) == str(number)[::-1]
 
-for i in range(999, 99, -1):
-    for j in range(999, 99, -1):
-        if estPalindrome(i*j) and i*j > reponse:
-            reponse = i*j
-            facteur1 = i
-            facteur2 = j
+def solveProblem(digits=3):
+    largest = 0
 
-print("Le plus grand nombre premier facteur de 2 nombres de 3 chiffres est", reponse, "qui est facteur de", facteur1, "et", facteur2,".")
+    for i, j in itertools.product(range(10**(digits-1)-1, 10**digits-1), repeat=2):
+        if isPalindromic(i*j):
+            largest = max(largest, i*j)
+
+    return largest
+
+if __name__ == '__main__':
+    print(solveProblem())
