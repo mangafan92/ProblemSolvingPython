@@ -1,7 +1,8 @@
-from modules.primes import *
+import modules.primes
+primes = modules.primes.Primes()
 
-primes = Primes()
+def solveProblem(number=10001):
+    return primes[number-1]
 
-n = int(input("Nombre:"))
-
-print("Le", n, "-ième nombre premier est", primes.get(n-1), ".")
+if __name__ == '__main__':
+    print(solveProblem())
