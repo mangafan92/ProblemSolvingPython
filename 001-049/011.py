@@ -1,62 +1,64 @@
-fichier = open("./data/011_grid.txt", "r")
+from functools import reduce
+from operator import mul
 
-nombres = fichier.read()
-nombres = nombres.split()
+with open("./data/011_grid.txt", "r") as file:
+    content = file.read()
 
-# Déclaration d'une liste de 20 éléments qui contient des listes de 20 éléments afin de modéliser la grille de 20x20
-grid = []
-for k in range(0,20):
-    grid.append([0]*20)
+def gridOfContent(content):
+    content = content.splitlines()
+    content = list(map(lambda n: n.split(" "), content))
 
-# On remplis le tableau avec les nombres de la liste
-for k in range(0, 20):
-    for j in range(0, 20):
-        grid[k][j] = int(nombres[k*20+j])
+    lineToInt = lambda line: list(map(int, line))
+    content = list(map(lineToInt, content))
 
-nombre =  int(input("Nombre:"))
-produit = 0
+    return content
 
-# Lignes
-for i in range(0,20):    
-    for j in range(0,20-nombre):
-        produitTemp = 1
-        
-        for k in range(j, j+nombre):
-            produitTemp *= grid[i][k]
+def transpose(grid):
+    output = [len(grid[0])*[0] for k in range(len(grid))]
 
-        if produitTemp > produit:
-            produit = produitTemp
-# Colonnes          
-for i in range(0,20):    
-    for j in range(0,20-nombre):
-        produitTemp = 1
-        
-        for k in range(j, j+nombre):
-            produitTemp *= grid[k][i]
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            output[j][i] = grid[i][j]
 
-        if produitTemp > produit:
-            produit = produitTemp
-    
-# Diagonales allant de la gauche vers la droite et du bas vers le haut
-for i in range(nombre, 20):
-    for j in range(0, 20-nombre):
-        produitTemp = 1
-        
-        for k in range(0, nombre):
-            produitTemp *= grid[i-k][j+k]
-            
-        if produitTemp > produit:
-            produit = produitTemp
-    
-# Diagonales allant de la gauche vers la droite et du haut vers le bas
-for i in range(0, 20-nombre):
-    for j in range(0, 20-nombre):
-        produitTemp = 1
-        
-        for k in range(0, nombre):
-            produitTemp *= grid[i+k][j+k]
-            
-        if produitTemp > produit:
-            produit = produitTemp
-            
-print("Le plus grand produits de", nombre, "nombres aligné(s) en ligne, colonne ou diagonale de la grille est", produit, ".")
+    return output
+
+def generateVerticalSymetric(grid):
+    output = list(grid)
+
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            output[i][j] = grid[len(grid)-1-i][j]
+
+    return output
+
+def maxLineProduct(grid, adjacent):
+    maxProduct = 0
+    for line in grid:
+        for i in range(0, len(line)-adjacent):
+            maxProduct = max(maxProduct, reduce(mul, line[i:i+adjacent]))
+    return maxProduct
+
+def maxDiagonalProduct(grid, adjacent):
+    maxProduct = 0
+    for i in range(len(grid)-adjacent):
+        for j in range(len(grid[i])-adjacent):
+            diagonal = [grid[i+k][j+k] for k in range(adjacent)]
+            maxProduct = max(maxProduct, reduce(mul, diagonal))
+    return maxProduct
+
+def solveProblem(content=content, adjacent=4):
+    grid = gridOfContent(content)
+    transposed = transpose(grid)
+    symetric = generateVerticalSymetric(grid)
+
+    maxProducts = (
+        maxLineProduct(grid, adjacent),
+        maxLineProduct(transposed, adjacent),
+        maxDiagonalProduct(grid, adjacent),
+        maxDiagonalProduct(symetric, adjacent)
+    )
+
+    return max(maxProducts)
+
+if __name__ == '__main__':
+    print(solveProblem())
