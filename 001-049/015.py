@@ -1,17 +1,16 @@
-def nombreRoutes(a, b, table):
-    if table[a][b] != 0:
-        return table[a][b]
-    else:
-        if a == 0 or b == 0:
-            return 1
-        out = nombreRoutes(a-1, b, table) + nombreRoutes(a, b-1, table)
-        table[a][b] = out
-        return out
+def latticePaths(height, width):
+    results = [[0]*(height+1) for i in range(width+1)]
 
-nombre = int(input("Nombre:"))
+    def latticePathsRecur(x, y):
+        if results[x][y] != 0:
+            return results[x][y]
+        else:
+            if x == width or y == height:
+                return 1
+            else:
+                results[x][y] = latticePathsRecur(x+1, y) + latticePathsRecur(x, y+1)
+                return  results[x][y]
 
-grid = []
-for k in range(0,nombre+1):
-    grid.append([0]*(nombre+1))
+    return latticePathsRecur(0, 0)
 
-print("Le nombre de chemins différents qui permettent d'aller d'un coin au point opposé d'un carré de", nombre, "cotés est", nombreRoutes(nombre, nombre, grid), ".")
+print(latticePaths(20, 20))
