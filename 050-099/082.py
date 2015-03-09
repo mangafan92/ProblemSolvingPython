@@ -1,53 +1,52 @@
-def mini(table):
-    mini = -1
-    for k in range(0, len(table)):
-        if table[k] < mini or mini == -1:
-            mini = table[k]
-    return mini
-    
-def sommeColonne(colonne, debut, fin, table):
-    s = 0
-    if debut == fin:
-        s = table[debut][colonne]
-    elif debut < fin:
-        for k in range(debut, fin+1):
-            s += table[k][colonne]
-    elif debut > fin:
-        for k in range(fin, debut+1):
-            s += table[k][colonne]
-    return s
+with open("./data/082_matrix.txt", "r") as file:
+    content = file.read()
 
-fichier = open("./data/081_matrix.txt", "r")
-fichier = fichier.read()
-fichier = fichier.split()
+def contentToMatrix(content):
+    content = content.splitlines()
+    content = list(map(lambda x: x.split(","), content))
+    lineToInt = lambda line: list(map(int, line))
+    content = list(map(lineToInt, content))
+    return content
 
-matrix = []
+def dijkstra(matrix, x):
+    width = len(matrix[0])
+    height = len(matrix)
+    costs = [[0]* width for k in range(height)]
+    costs[x][0] = matrix[x][0]
+    minimums = [(x, 0, costs[x][0])]
 
-for k in range(0, 80):
-    matrix.append(fichier[k].split(","))
-    
-for i in range(0, 80):
-    for j in range(0, 80):
-        matrix[i][j] = int(matrix[i][j])
+    while len(minimums) > 0:
+        minimums = list(sorted(minimums, key=lambda n: n[2]))
+        addNextCost(minimums, matrix, costs)
 
-sommesMin = []
+    return min(map(lambda line: line[-1], costs))
 
-for k in range(0,80):
-    sommesMin.append(80*[-1])
+def getAdjacentsCases(x, y, costs):
+    adjacents = list()
+    coordinates = (x+1, y), (x, y+1), (x-1, y)
 
-for k in range(0,80):
-    sommesMin[k][0] = matrix[k][0]
-    
-for i in range(1, 80):
-    for j in range(0, 80):
-        listeSommes = []
-        for k in range(0,80):
-            listeSommes.append(sommeColonne(i, j, k, matrix) + sommesMin[k][i-1])
-        sommesMin[j][i] = mini(listeSommes)
+    for coordinate in coordinates:
+        if min(coordinate) >= 0:
+            try:
+                adjacents.append((coordinate[0], coordinate[1], costs[coordinate[0]][coordinate[1]]))
+            except:
+                pass
 
-sommesFinales = []
+    return adjacents
 
-for k in range(0, 80):
-    sommesFinales.append(sommesMin[k][79])
-    
-print("La somme minimale est", mini(sommesFinales), ".")
+def addNextCost(minimums, matrix, costs):
+    minimum = minimums[0]
+
+    for adjacent in getAdjacentsCases(minimum[0], minimum[1], costs):
+        if adjacent[2] == 0:
+            costs[adjacent[0]][adjacent[1]] = costs[minimum[0]][minimum[1]] + matrix[adjacent[0]][adjacent[1]]
+            minimums.append((adjacent[0], adjacent[1], costs[adjacent[0]][adjacent[1]]))
+
+    minimums.remove(minimum)
+
+def solveProblem(content=content):
+    matrix = contentToMatrix(content)
+    return min([dijkstra(matrix, k) for k in range(80)])
+
+if __name__ == '__main__':
+    print(solveProblem())
