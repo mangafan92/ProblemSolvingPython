@@ -1,33 +1,36 @@
-def sommeMin(x, y, matrix, listeSommes): 
-    if listeSommes[x][y] == -1:
-        if x+1 == len(matrix) and y+1 == len(matrix[x]):
-            listeSommes[x][y] = matrix[x][y]
-        elif x+1 == len(matrix):
-            listeSommes[x][y] = sommeMin(x, y+1, matrix, listeSommes) + matrix[x][y]
-        elif y+1 == len(matrix[x]):
-            listeSommes[x][y] = sommeMin(x+1, y, matrix, listeSommes) + matrix[x][y]
+with open("./data/081_matrix.txt", "r") as file:
+    content = file.read()
+
+def minimalPathSum(matrix):
+    width = len(matrix[0])
+    height = len(matrix)
+    minimal = [[0]* width for k in range(height)]
+
+    def minimalPathSumRecur(x, y):
+        if minimal[x][y] != 0:
+            return minimal[x][y]
         else:
-            if sommeMin(x+1, y, matrix, listeSommes) < sommeMin(x, y+1, matrix, listeSommes):
-                listeSommes[x][y] = sommeMin(x+1, y, matrix, listeSommes) + matrix[x][y]
+            if (x+1, y+1) == (height, width):
+                minimal[x][y] = matrix[x][y]
+            elif x+1 == width:
+                minimal[x][y] = matrix[x][y] + minimalPathSumRecur(x, y+1)
+            elif y+1 == height:
+                minimal[x][y] = matrix[x][y] + minimalPathSumRecur(x+1, y)
             else:
-                listeSommes[x][y] = sommeMin(x, y+1, matrix, listeSommes) + matrix[x][y]
-    return listeSommes[x][y]
+                minimal[x][y] = matrix[x][y] + min(minimalPathSumRecur(x+1, y), minimalPathSumRecur(x, y+1))
+            return minimal[x][y]
 
-fichier = open("./data/081_matrix.txt", "r")
-fichier = fichier.read()
-fichier = fichier.split()
+    return minimalPathSumRecur(0, 0)
 
-matrix = []
+def contentToMatrix(content):
+    content = content.splitlines()
+    content = list(map(lambda x: x.split(","), content))
+    lineToInt = lambda line: list(map(int, line))
+    content = list(map(lineToInt, content))
+    return content
 
-for k in range(0, 80):
-    matrix.append(fichier[k].split(","))
-    
-for i in range(0, 80):
-    for j in range(0, 80):
-        matrix[i][j] = int(matrix[i][j])
-        
-listeSommes = []
-for k in range(0, 80):
-    listeSommes.append([-1]*80)
-    
-print("Le chemin dont la somme est minimale a une somme qui vaut", sommeMin(0, 0, matrix, listeSommes),".")
+def solveProblem(content=content):
+    return minimalPathSum(contentToMatrix(content))
+
+if __name__ == '__main__':
+    print(solveProblem())
