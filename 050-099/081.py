@@ -1,27 +1,6 @@
 with open("./data/081_matrix.txt", "r") as file:
     content = file.read()
 
-def minimalPathSum(matrix):
-    width = len(matrix[0])
-    height = len(matrix)
-    minimal = [[0]* width for k in range(height)]
-
-    def minimalPathSumRecur(x, y):
-        if minimal[x][y] != 0:
-            return minimal[x][y]
-        else:
-            if (x+1, y+1) == (height, width):
-                minimal[x][y] = matrix[x][y]
-            elif x+1 == width:
-                minimal[x][y] = matrix[x][y] + minimalPathSumRecur(x, y+1)
-            elif y+1 == height:
-                minimal[x][y] = matrix[x][y] + minimalPathSumRecur(x+1, y)
-            else:
-                minimal[x][y] = matrix[x][y] + min(minimalPathSumRecur(x+1, y), minimalPathSumRecur(x, y+1))
-            return minimal[x][y]
-
-    return minimalPathSumRecur(0, 0)
-
 def contentToMatrix(content):
     content = content.splitlines()
     content = list(map(lambda x: x.split(","), content))
@@ -29,8 +8,43 @@ def contentToMatrix(content):
     content = list(map(lineToInt, content))
     return content
 
+def dijkstra(matrix):
+    width = len(matrix[0])
+    height = len(matrix)
+    costs = [[0]* width for k in range(height)]
+    costs[0][0] = matrix[0][0]
+    minimums = [(0, 0, costs[0][0])]
+
+    while len(minimums) > 0:
+        minimums = list(sorted(minimums, key=lambda n: n[2]))
+        addNextCost(minimums, matrix, costs)
+
+    return costs[-1][-1]
+
+def getAdjacentsCases(x, y, costs):
+    adjacents = list()
+    coordinates = (x+1, y), (x, y+1)
+
+    for coordinate in coordinates:
+        try:
+            adjacents.append((coordinate[0], coordinate[1], costs[coordinate[0]][coordinate[1]]))
+        except:
+            pass
+
+    return adjacents
+
+def addNextCost(minimums, matrix, costs):
+    minimum = minimums[0]
+
+    for adjacent in getAdjacentsCases(minimum[0], minimum[1], costs):
+        if adjacent[2] == 0:
+            costs[adjacent[0]][adjacent[1]] = costs[minimum[0]][minimum[1]] + matrix[adjacent[0]][adjacent[1]]
+            minimums.append((adjacent[0], adjacent[1], costs[adjacent[0]][adjacent[1]]))
+
+    minimums.remove(minimum)
+
 def solveProblem(content=content):
-    return minimalPathSum(contentToMatrix(content))
+    return dijkstra(contentToMatrix(content))
 
 if __name__ == '__main__':
     print(solveProblem())
