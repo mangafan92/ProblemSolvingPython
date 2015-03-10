@@ -1,8 +1,5 @@
-nombre = int(input("Nombre:"))
-s = 0
+def solveProblem(limit=1000):
+    return sum([i**i for i in range(1, limit+1)]) % 10**10
 
-for k in range(1, nombre+1):
-    s += k**k
-    s %= 10**10
-    
-print("Les 10 derniers chiffres de la somme des nombres allant de 1^1 à", nombre, "^", nombre, "sont", s, ".")
+if __name__ == '__main__':
+    print(solveProblem())
