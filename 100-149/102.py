@@ -32,4 +32,5 @@ def isPointAndOriginAboveLine(triangle, point):
 def solveProblem(content=content):
     return len(list(filter(containOrigin, contentToTriangles(content))))
 
-print(solveProblem())
+if __name__ == '__main__':
+    print(solveProblem())
