@@ -1,109 +1,61 @@
-# La technique utilisée pour résoudre les sudokus est expliquées ici: http://fr.openclassrooms.com/informatique/cours/le-backtracking-par-l-exemple-resoudre-un-sudoku
+import itertools
 
-def estValide(sudoku, position):
-    if position == 81 :
-        return True    
-    
-    i = position // 9
-    j = position % 9
-        
-    if sudoku[i][j] != 0:
-        return estValide(sudoku, position+1)
-        
+with open("./data/096_sudoku.txt", "r") as file:
+    content = file.read()
+
+def isNotInLine(sudoku, number, line):
+    return not number in sudoku[line]
+
+def isNotInColumn(sudoku, number, column):
+    return not number in [sudoku[k][column] for k in range(9)]
+
+def isNotInSquare(sudoku, number, line, column):
+    square = line//3*3, column//3*3
+    return not number in [sudoku[i][j] for i, j in itertools.product(range(square[0], square[0]+3), range(square[1], square[1]+3))]
+
+def isPossibleNumber(sudoku, number, line, column):
+    return isNotInLine(sudoku, number, line) and isNotInColumn(sudoku, number, column) and isNotInSquare(sudoku, number, line, column)
+
+def isValidSudoku(sudoku, position):
+    if position == 81:
+        return True
+
+    line = position // 9
+    column = position % 9
+
+    if sudoku[line][column] != 0:
+        return isValidSudoku(sudoku, position+1)
+
     for k in range(1, 10):
-        if absentLigne(sudoku, k, i) and absentColonne(sudoku, k, j) and absentCarre(sudoku, k, i, j):
-            sudoku[i][j] = k
-            
-            if estValide(sudoku, position+1):
+        if isPossibleNumber(sudoku, k, line, column):
+            sudoku[line][column] = k
+
+            if isValidSudoku(sudoku, position+1):
                 return True
-    sudoku[i][j] = 0
+
+    sudoku[line][column] = 0
     return False
-        
-def absentLigne(sudoku, nbre, i):
-    for k in range(0, 9):
-        if sudoku[i][k] == nbre:
-            return False
-    return True
-    
-def absentColonne(sudoku, nbre, j):
-    for k in range(0, 9):
-        if sudoku[k][j] == nbre:
-            return False
-    return True
-    
-def absentCarre(sudoku, nbre, i, j):
-    for k in range(i-i%3, i-i%3+3):
-        for l in range(j-j%3, j-j%3+3):
-            if sudoku[k][l] == nbre:
-                return False
-    return True
-    
-def isCorrect(sudoku):
-    for n in range(0,81):
-        # Pour chaque ligne
-        for i in range(0, 9):
-            # Pour chaque case de la ligne
-            for j in range(0, 9):
-                if sudoku[i][j] != 0:                
-                    # Ligne
-                    for k in range(0, 9):
-                        if sudoku[i][j] == sudoku[k][j] and k != i:
-                            print(i,j,k,j, sudoku[i][j])
-                            return False
-                    # Colonne
-                    for k in range(0, 9):
-                        if sudoku[i][j] == sudoku[i][k] and k != j:
-                            print(i,j,i,k,sudoku[i][j])
-                            return False
-                    # Carré de 9 cases
-                    for k in range(i-i%3, i-i%3+3):
-                        for l in range(j-j%3, j-j%3+3):
-                            if sudoku[i][j] == sudoku[k][l] and (k != i and l != j):
-                                print(i,j,k,l,sudoku[i][j])                                
-                                return False
-    return True
-                    
-    
-fichier = open("./data/096_sudoku.txt", "r")
-fichier = fichier.read()
-fichier = fichier.split()
 
-k = 0
+def contentToSudokus(content):
+    content = content.splitlines()
+    content = [content[10*k+1:10*k+10] for k in range(len(content)//10)]
+    lineToList = lambda line: list(map(list, line))
+    content = list(map(lineToList, content))
+    lineToInt = lambda line: list(map(int, line))
+    sudokuToInt = lambda sudoku: list(map(lineToInt, sudoku))
+    content = list(map(sudokuToInt, content))
+    return content
 
-while k < len(fichier):
-    if len(fichier[k]) < 5:
-        fichier.pop(k)
-    else:
-        k += 1
+def solveProblem(content=content):
+    sudoku = contentToSudokus(content)
 
-for k in range(0, len(fichier)):
-    fichier[k] = list(fichier[k])
-    
-for i in range(0, len(fichier)):
-    for j in range(0, len(fichier[i])):
-        fichier[i][j] = int(fichier[i][j])
-        
-sudokus = []
+    for k in range(len(sudoku)):
+        isValidSudoku(sudoku[k], 0)
 
-for i in range(0,50):
-    sudoku = []
-    for j in range(0, 9):
-        sudoku.append(fichier[9*i+j])
-    sudokus.append(sudoku) 
-  
-for k in range(0, 50):
-    estValide(sudokus[k], 0)
-    
-#for k in range(0, 50):
-#    print(k, isCorrect(sudokus[k]))
-#    print("---")
+    numbers = [sudoku[k][0][:3] for k in range(len(sudoku))]
+    toBase10 = lambda tab: sum([tab[k]*10**(2-k) for k in range(len(tab))])
+    numbers = list(map(toBase10, numbers))
+    return sum(numbers)
 
-somme = 0
-
-for k in range(0, 50):
-    terme = ""    
-    for i in range(0, 3):
-        terme += str(sudokus[k][0][i])
-    somme += int(terme)
-        
-print("La somme des nombres à 3 chiffres situés en haut à gauche des grilles est", somme, ".")
+if __name__ == '__main__':
+    print(solveProblem())
