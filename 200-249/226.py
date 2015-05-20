@@ -17,15 +17,21 @@ def integrate(function, inf, sup, precision=10000):
     return sum(y)
 
 
-def intersection(function1, function2, start, gap):
-    k = 0
-    while abs(function1(start + k * gap) - function2(start + k * gap)) > 2 * gap:
-        k += 1
-    return start + k * gap
+def intersection(function1, function2, inf, sup, gap):
+    return dichoZero(lambda x: function1(x) - function2(x), inf, sup, gap)
+
+def dichoZero(function, inf, sup, precision):
+    middle = (inf+sup)/2
+    if sup-inf < precision:
+        return middle
+    elif function(inf)*function(middle) > 0:
+        return dichoZero(function, middle, sup, precision)
+    else:
+        return dichoZero(function, inf, middle, precision)
 
 def solve():
-    intersectionX = intersection(blancmange, infCircle, 0, 10**-5)
-    
+    intersectionX = intersection(blancmange, infCircle, 0, 0.25, 10**-8)
+
     blancmangeArea = integrate(blancmange, intersectionX, 0.5, 50000)
     infCircleArea = integrate(infCircle, intersectionX, 0.5, 50000)
 
