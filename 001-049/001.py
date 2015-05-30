@@ -1,11 +1,5 @@
 def solveProblem(limit=1000):
-    result = 0
-
-    for k in range (1,limit):
-        if k % 3 == 0 or k % 5 == 0:
-            result += k
-
-    return result
+    return sum([k for k in range(limit + 1) if k % 5 == 0 or k % 3 == 0])
 
 if __name__ == '__main__':
     print(solveProblem())
