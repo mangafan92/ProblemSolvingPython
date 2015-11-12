@@ -1,15 +1,18 @@
 import os
+import pickle
 
 
 class Primes(list):
+    WRITE_FREQUENCY = 5000
+
     def __init__(self):
-        list.__init__(self, [2])
+        super().__init__([2])
         self.dir = os.path.dirname(os.path.realpath(__file__))
-        self.file = self.dir + "/data/primes.txt"
+        self.file = self.dir + "/data/primes"
         self.read()
 
     def get(self, n):
-        self.addPrimesToId(n+1)
+        self.addPrimesToId(n + 1)
         return list.__getitem__(self, n)
 
     def __getitem__(self, item):
@@ -32,14 +35,14 @@ class Primes(list):
         while not self.isNextPrime(n):
             n += 1
         self.append(n)
-        if len(self) % 5000 == 0:
+        if len(self) % Primes.WRITE_FREQUENCY == 0:
             self.write()
 
     def isPrime(self, n):
         self.addPrimeToNumber(n)
 
         def isPrimeRecur(a, b):
-            m = (a+b)//2
+            m = (a + b) // 2
 
             if self[m] == n:
                 return True
@@ -48,7 +51,7 @@ class Primes(list):
             elif self[m] > n:
                 return isPrimeRecur(a, m)
             else:
-                return isPrimeRecur(m+1, b)
+                return isPrimeRecur(m + 1, b)
 
         return isPrimeRecur(0, len(self))
 
@@ -115,9 +118,9 @@ class Primes(list):
             if len(list(factors.keys())) > 0:
                 smaller = min(factors.keys())
                 otherFactors = {n: factors[n] for n in list(sorted(factors.keys()))[1:]}
-                for k in range(0, factors[smaller]+1):
-                    divisors.add(start*(smaller**k))
-                    divisorsRecur(start*(smaller**k), otherFactors)
+                for k in range(0, factors[smaller] + 1):
+                    divisors.add(start * (smaller ** k))
+                    divisorsRecur(start * (smaller ** k), otherFactors)
 
         divisorsRecur(1, decomposition)
         return list(sorted(divisors))
@@ -126,34 +129,20 @@ class Primes(list):
         decomposition = self.decomposeProduct(n)
         divisors = 1
         for prime in decomposition:
-            divisors *= decomposition[prime]+1
+            divisors *= decomposition[prime] + 1
         return divisors
 
     def read(self):
         try:
-            if not os.path.isfile(self.file):
-                raise FileNotFoundError
-            file = open(self.file)
-            content = file.read()
-            list.__init__(self, content.splitlines())
-
-            for k in range(len(self)):
-                self[k] = int(self[k])
-
-            if len(self) == 0:
-                list.__init__(self, [2])
-
-        except (ValueError, FileNotFoundError):
-            print("Fichier primes.txt non trouvé.")
-            list.__init__(self, [2])
-            self.write()
+            super().__init__(pickle.load(open(self.file, "rb")))
+        except:
+            pass
 
     def write(self):
-        datadir = self.dir + "/data"
-        if not os.path.isdir(datadir) and not os.path.isfile(datadir):
-            os.mkdir(datadir)
-        with open(self.file, "w") as file:
-            output = ""
-            for n in self:
-                output += str(n) + "\n"
-            file.write(output)
+        try:
+            datadir = self.dir + "/data"
+            if not os.path.isdir(datadir) and not os.path.isfile(datadir):
+                os.mkdir(datadir)
+            pickle.dump(self, open(self.file, "wb"))
+        except:
+            pass
