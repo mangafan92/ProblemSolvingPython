@@ -107,6 +107,28 @@ class Primes(list):
 
         return decomposition
 
+    def divisors(self, n):
+        decomposition = self.decomposeProduct(n)
+        divisors = set()
+
+        def divisorsRecur(start, factors):
+            if len(list(factors.keys())) > 0:
+                smaller = min(factors.keys())
+                otherFactors = {n: factors[n] for n in list(sorted(factors.keys()))[1:]}
+                for k in range(0, factors[smaller]+1):
+                    divisors.add(start*(smaller**k))
+                    divisorsRecur(start*(smaller**k), otherFactors)
+
+        divisorsRecur(1, decomposition)
+        return list(sorted(divisors))
+
+    def numberOfDivisors(self, n):
+        decomposition = self.decomposeProduct(n)
+        divisors = 1
+        for prime in decomposition:
+            divisors *= decomposition[prime]+1
+        return divisors
+
     def read(self):
         try:
             if not os.path.isfile(self.file):
