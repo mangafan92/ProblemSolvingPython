@@ -11,7 +11,7 @@ romanCharValues = {
 }
 
 
-def evaluateRomanNumeral(s: str):
+def evaluateRomanNumeral(s: str) -> int:
     value = 0
     for k in range(len(s)):
         if k + 1 < len(s) and romanCharValues[s[k + 1]] > romanCharValues[s[k]]:
@@ -21,7 +21,7 @@ def evaluateRomanNumeral(s: str):
     return value
 
 
-def minimumForm(n: int):
+def minimumForm(n: int) -> str:
     s = ""
     while n >= 1000:
         n -= 1000
@@ -78,7 +78,7 @@ def minimumForm(n: int):
     return s
 
 
-def solve(content=content):
+def solve(content: str = content) -> int:
     return sum([len(line) - len(minimumForm(evaluateRomanNumeral(line))) for line in content.splitlines()])
 
 
