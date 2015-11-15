@@ -1,7 +1,7 @@
 """
 Principe:
     - le problème revient à trouver l'entier le plus petit dont le nombre de partitions est divisé par 1 million
-    - on va utiliser l'application du théorème d'Euler qui donne une relation de récurrence sur le nombre de partitions des nombres entiers
+    - on va utiliser l'application du théorème des nombres pentagonaux qui donne une relation de récurrence sur le nombre de partitions des nombres entiers
         - source: https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_des_nombres_pentagonaux#Application
 
 Optimisation:
