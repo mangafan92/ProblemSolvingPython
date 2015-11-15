@@ -1,3 +1,15 @@
+"""
+Principe:
+    - on va tout simplement générer toutes les familles de nombres qui fonctionnent, récursivement
+    - on crée des listes qui contiennent les débuts et fins des nombres polygonaux à 4 chiffres
+    - on calcule tous les ordres possibles des types de nombre polygonaux dans un cycle (ex: [triangulaire, pentagonal, ..., carré])
+    - ensuite, pour chaque ordre
+        - on met un élément du premier type au début
+        - on cherche un nombre du type suivant dans l'ordre des types dont le début est identique à la fin du nombre précédent et on l'ajoute au cycle
+        - on continue jusqu'à que ça ne soit plus possible (ie, aucun nombre du type n'a pour début la fin du nombre que l'on vient d'insérer) ou jusqu'à remplir le cycle
+        - une fois le cycle rempli, il ne reste plus qu'à vérifier que le début du premier nombre coïncide avec la fin du dernier
+"""
+
 import itertools
 
 
