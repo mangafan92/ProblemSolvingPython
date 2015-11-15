@@ -1,49 +1,46 @@
-# TODO
+"""
+Principe:
+    - le problème revient à trouver l'entier le plus petit dont le nombre de partitions est divisé par 1 million
+    - on va utiliser l'application du théorème d'Euler qui donne une relation de récurrence sur le nombre de partitions des nombres entiers
+        - source: https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_des_nombres_pentagonaux#Application
 
-def startrecur(coins):
-    partition = []
-    piles = []
-    recur(coins, piles)
-    while not isover(piles, coins):
-        for k in range(coins**2):
-            recur(coins, piles)
-        cleanpiles(piles)
-    return piles
+Optimisation:
+    - on stocke les résultats des appels récursifs dans un dict pour éviter de recalculer plusieurs fois les mêmes valeurs au cours de l'exécution
+    - on effectue tous les calculs modulo 1 million
+"""
 
-def recur(coins, piles):
-    if not piles == []:
-        for pile in piles:
-            if sum(pile) < coins:
-                for k in range(1, coins - sumpile(pile) + 1):
-                    tmppile = list(pile)
-                    tmppile.append(k)
-                    piles.append(tmppile)
-                piles.remove(pile)
-                break
-    else:
-        for k in range(1, coins+1):
-            piles.append([k])
+partitionsDict = {0: 1, 1: 1}
 
-def cleanpiles(piles):
-    for pile in piles:
-        pile.sort()
-    tmppiles = list(piles)
-    for pile in tmppiles:
-        while piles.count(pile) > 1:
-            piles.remove(pile)
 
-def isover(piles, coins):
-    for pile in piles:
-        if sumpile(pile) < coins:
-            return False
-    return True
+def pentagonalNumber(k: int) -> int:
+    return k * (3 * k - 1) // 2
 
-def sumpile(pile):
-    sum = 0
-    for number in pile:
-        sum += number
-    return sum
 
-for k in range(4, 41):
-    piles = startrecur(k)
-    print(k, len(piles), piles)
+def partitions(i: int) -> int:
+    try:
+        return partitionsDict[i]
+    except:
+        partitionsDict[i] = 0
+        k = 1
+        while i - k * (3 * k - 1) // 2 >= 0:
+            partitionsDict[i] += (-1) ** (k - 1) * partitions(i - pentagonalNumber(k)) % 10 ** 6
+            k += 1
+
+        k = -1
+        while i - k * (3 * k - 1) // 2 >= 0:
+            partitionsDict[i] += (-1) ** (k - 1) * partitions(i - pentagonalNumber(k)) % 10 ** 6
+            k -= 1
+
+        partitionsDict[i] = int(partitionsDict[i]) % 10 ** 6
+        return partitionsDict[i]
+
+
+def solve() -> int:
+    i = 1
+    while partitions(i) != 0:
+        i += 1
+    return i
+
+
+if __name__ == '__main__':
+    print(solve())
