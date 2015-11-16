@@ -1,3 +1,14 @@
+"""
+Principe:
+    - pas beaucoup d'autres solutions que la force brute:
+    - pour chaque premier p, il faut vérifier toutes les manières possibles de remplacer des digits identiques par un autre digit
+        - on calcule la liste des emplacements des digits (la case k contient les positions de du digit k dans le nombre)
+        - pour chaque digit k, on calcule les parties de la liste des emplacements de ce digit
+            - pour chaque partie, on calcule tous les nombres qu'on peut obtenir en changeant les digits de ces emplacements
+                - on compte le nombre de premiers qui font partie de la liste de nombres obtenus
+                - si on en obtient le nombre voulu, c'est gagné !
+"""
+
 from modules.fastPrimalityTest import fastPrimalityTest
 from modules.primes import Primes
 
