@@ -1,3 +1,11 @@
+"""
+Principe:
+    - une fois qu'on a la formule qui donne les nombres présents dans les coins, il faut juste effectuer des tests de primalité
+
+Optimisation:
+    - un test de primalité "classique" serait trop lent, on utilise le test de Miller-Rabin
+"""
+
 from modules.fastPrimalityTest import fastPrimalityTest
 
 cornerValues = dict()
