@@ -1,3 +1,11 @@
+"""
+Principe:
+    - on utilise 2 fonctions
+        - une qui évalue un nombre écrit en chiffres romains
+        - une autre qui calcule l'écriture la plus courte en chiffres romains d'un nombre en base 10
+        - il est ensuite assez simple de comparer les écritures du fichier avec les écritures minimales et de calculer la différence de taille
+"""
+
 content = open("./data/089_roman.txt", "r").read()
 
 romanCharValues = {
