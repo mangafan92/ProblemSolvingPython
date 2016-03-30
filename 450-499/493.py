@@ -1,3 +1,13 @@
+"""
+Principe:
+    - a chaque tirage, 2 possibilités:
+        - on tire une nouvelle couleur
+        - ou pas
+    - l'arbre de probabilités a 2**20 feuilles (soit ~10**6), on peut le calculer entièrement avec une fonction récursive
+    - une bonne partie de l'arbre n'est d'ailleurs jamais calculée puisqu'on peut s'arrêter lorsque toutes les couleurs ont été tirées
+"""
+
+
 def distinctColors(balls: int, ballsToPick: int, colors: int) -> float:
     ballsPerColor = balls // colors
 
