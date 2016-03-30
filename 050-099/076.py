@@ -15,5 +15,3 @@ def decompose(number):
             return decompositions
 
     return decomposeRecur(number, number-1)
-
-print(decompose(100))
