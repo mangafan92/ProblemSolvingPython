@@ -1,3 +1,10 @@
+"""
+Principe:
+    - on sait que le digit en 10**k dans a n'influera pas sur les digits en 10**i avec i < k dans a**2
+    - on va donc construire récursivement un nombre qui vérifie la propriété en s'assurant au fur et à mesure que les derniers digits de son carré sont corrects
+"""
+
+
 def getDigit(n: int, digit: int) -> int:
     return (n // 10 ** digit) % 10
 
