@@ -27,10 +27,6 @@ def subsetsIter(l: list) -> list:
 
 def isSpecial(numbers: list) -> bool:
     sumAndSize = list(sorted([(len(s), sum(s)) for s in subsetsIter(numbers)]))
-    sums = [s for length, s in sumAndSize]
-
-    if len(list(set(sums))) != len(sums):
-        return False
 
     for k in range(0, len(sumAndSize) - 1):
         if not sumAndSize[k][1] < sumAndSize[k + 1][1]:
