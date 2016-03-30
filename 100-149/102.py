@@ -1,3 +1,8 @@
+"""
+Principe:
+    - pour que l'origine soit dans le triangle, il faut que, pour chaque sommet du triangle, l'origine et ce sommet soient du même côté de la droite définie par les 2 autres sommets du triangle
+"""
+
 with open("./data/102_triangles.txt", "r") as file:
     content = file.read()
 
