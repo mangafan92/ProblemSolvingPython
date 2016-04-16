@@ -154,8 +154,6 @@ def solveM1(sides: int = 4, throws: int = 10 ** 6) -> str:
 
 # M2
 
-
-
 def probabilitiesFromSquare(monopolyBoard: list, square: int, doubles: int, sides: int) -> int:
     p = [[0 for k in range(3)] for square in range(len(monopolyBoard))]
     for d1, d2 in itertools.product(range(1, sides + 1), repeat=2):
@@ -219,7 +217,6 @@ def solveM2(sides: int = 4, throws: int = 300) -> str:
 
 
 # M1,5
-
 
 def solve(sides: int = 4) -> str:
     a = random.randrange(1)
