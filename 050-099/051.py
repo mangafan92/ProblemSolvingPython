@@ -46,7 +46,7 @@ def families(number: int):
     for i in range(10):
         if positions[i]:
             for replacementPossibility in powerSet(positions[i]):
-                if replacementPossibility:
+                if replacementPossibility and (i != 0 or 0 not in replacementPossibility):
                     yield replaceDigitsWithAllDigit(number, replacementPossibility)
 
 
