@@ -2,7 +2,7 @@ import re
 
 
 def wordScore(word: str) -> int:
-    letters = list([chr(l) for l in range(ord("A"), ord("A") + 26)])
+    letters = [chr(l) for l in range(ord("A"), ord("A") + 26)]
     letterScore = lambda letter: letters.index(letter.upper()) + 1
     return sum(map(letterScore, word))
 
