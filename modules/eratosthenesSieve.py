@@ -3,6 +3,6 @@ def primes(limit: int):
 
     for i in range(2, limit):
         if l[i] == True:
-            for j in range(2*i, limit, i):
+            for j in range(2 * i, limit, i):
                 l[j] = False
             yield i
