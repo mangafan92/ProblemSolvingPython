@@ -1,8 +1,12 @@
-import modules.primes
-primes = modules.primes.Primes()
+import modules.eratosthenesSieve
 
 def solveProblem(number=10001):
-    return primes[number-1]
+    limit = 2
+    while True:
+        try:
+            return list(modules.eratosthenesSieve.primes(limit))[number-1]
+        except:
+            limit *= 2
 
 if __name__ == '__main__':
     print(solveProblem())
