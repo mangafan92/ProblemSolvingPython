@@ -14,40 +14,52 @@ Optimisation:
     - ce programme est le plus rapide que j'ai réussi à faire (après 2 autres essais infructueux), mais il ne respecte pas la règle de la minute...
 """
 
-import math
+import heapq
+import functools
 
-from modules.primes import Primes
-from modules.primeDecomposition import PrimeDecomposition
-
-primes = Primes()
+import modules.eratosthenesSieve
 
 
-def insert(costs: list, result: PrimeDecomposition) -> None:
-    toInsert = costs.pop(0)
-
-    def insertRec(a: int, b: int):
-        m = (a + b) // 2
-        if b - a > 1:
-            if math.log2(primes[costs[m]]) * (result[primes[costs[m]]] + 1) > math.log2(primes[toInsert]) * (result[primes[toInsert]] + 1):  # On passe au log pour éviter de comparer des nombres immenses
-                return insertRec(a, m)
-            else:
-                return insertRec(m, b)
-        else:
-            costs.insert(b, toInsert)
+def cost(prime, primeDecomposition):
+    try:
+        return prime ** (primeDecomposition[prime] + 1)  # 2**(k+1) - 1 = 2**k - 1 + ((2**k - 1) + 1)
+    except:
+        return prime
 
 
-    insertRec(0, len(costs) - 1)
+def Nprimes(n):
+    limit = 10
+    output = list(modules.eratosthenesSieve.primes(limit))
+
+    while len(output) < n:
+        limit *= 10
+        output = list(modules.eratosthenesSieve.primes(limit))
+
+    return output
+
+
+def product(iterable, mod=None):
+    return functools.reduce(lambda a, b: a * b % mod if mod else a * b, iterable)
 
 
 def solve(n: int = 500500) -> int:
-    result = PrimeDecomposition(1)
-    costs = list(range(n))  # Liste des coûts de multiplication
+    primes = Nprimes(n)
+    result = dict()
 
-    for k in range(n):
-        result[primes[costs[0]]] += result[primes[costs[0]]] + 1  # 2**(k+1) - 1 = 2**k - 1 + ((2**k - 1) + 1)
-        insert(costs, result)
+    costs = [(cost(prime, result), prime) for prime in primes]
+    heapq.heapify(costs)
 
-    return result.value(modulo=500500507)
+    for _ in range(n):
+        _, prime = heapq.heappop(costs)
+
+        try:
+            result[prime] += result[prime] + 1  # 2**(k+1) - 1 = 2**k - 1 + ((2**k - 1) + 1)
+        except:
+            result[prime] = 1
+
+        heapq.heappush(costs, (cost(prime, result), prime))
+
+    return product((pow(p, result[p], 500500507) for p in result), mod=500500507)
 
 
 if __name__ == '__main__':
