@@ -1,14 +1,9 @@
-import modules.primes
+import modules.eratosthenesSieve
 
-primes = modules.primes.Primes()
 
-def solveProblem(limit=2*10**6):
-    result = 0
-    k = 0
-    while primes[k] < limit:
-        result += primes[k]
-        k += 1
-    return result
+def solveProblem(limit=2 * 10 ** 6):
+    return sum(modules.eratosthenesSieve.primes(limit + 1))
+
 
 if __name__ == '__main__':
     print(solveProblem())
