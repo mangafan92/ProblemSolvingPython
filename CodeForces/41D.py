@@ -14,18 +14,18 @@ if __name__ == '__main__':
 
             for mod in range(k + 1):
                 next_mod = (chessboard[i][j] + mod) % (k + 1)
-                next = (-1, "")
+                to_save = (-1, "")
 
                 if j + 1 < m \
                         and costs[i - 1][j + 1][mod][0] >= 0 \
                         and (j == 0 or costs[i - 1][j + 1][mod] > costs[i - 1][j - 1][mod]):
-                    next = costs[i - 1][j + 1][mod]
-                    next = (next[0] + chessboard[i][j], "R" + next[1])
+                    to_save = costs[i - 1][j + 1][mod]
+                    to_save = (to_save[0] + chessboard[i][j], "R" + to_save[1])
 
                 elif j - 1 >= 0 and costs[i - 1][j - 1][mod][0] >= 0:
-                    next = costs[i - 1][j - 1][mod]
-                    next = (next[0] + chessboard[i][j], "L" + next[1])
-                costs[i][j][next_mod] = max(costs[i][j][next_mod], next)
+                    to_save = costs[i - 1][j - 1][mod]
+                    to_save = (to_save[0] + chessboard[i][j], "L" + to_save[1])
+                costs[i][j][next_mod] = max(costs[i][j][next_mod], to_save)
 
 
     i_max = max(range(m), key=lambda i: costs[n - 1][i][0][0])
