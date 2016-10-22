@@ -39,7 +39,7 @@ def collision(front_square, room, size):
         return room[front_square[0]][front_square[1]] == 1
 
 
-def next(square, direction, room, size):
+def nextSquare(square, direction, room, size):
     if collision(front(square, direction), room, size):
         return square, rotate(direction)
     else:
@@ -54,8 +54,8 @@ def main():
 
     squares = {((i, j), direction)}
 
-    while next((i, j), direction, room, (h, w)) not in squares:
-        (i, j), direction = next((i, j), direction, room, (h, w))
+    while nextSquare((i, j), direction, room, (h, w)) not in squares:
+        (i, j), direction = nextSquare((i, j), direction, room, (h, w))
         squares.add(((i, j), direction))
 
     print(len(list(set((i, j) for (i, j), _ in squares))))
