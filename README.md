@@ -5,3 +5,4 @@ Solutions à certains problèmes de https://projecteuler.net/ et http://codeforc
 
 - refaire la classe primes utilisée dans beaucoup de programmes
 - rendre chaque fichier .py autosuffisant
+- documenter les dépendances
